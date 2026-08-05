@@ -3614,6 +3614,39 @@ test
 
 
 }
+/* =========================================================
+   PORTFOLIO ACCORDION RADIUS FIX
+========================================================= */
+
+
+.portfolio-item{
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+}
+
+
+.portfolio-category{
+
+    border-radius:22px;
+
+}
+
+
+.portfolio-item.active .portfolio-category{
+
+    border-radius:22px 22px 0 0;
+
+}
+
+
+.portfolio-content{
+
+    border-radius:0 0 22px 22px;
+
+}
    /* ==========================================
      END
    =========================================================*/

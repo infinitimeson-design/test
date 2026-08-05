@@ -3319,6 +3319,301 @@ test
 
 }
 
+/* =========================================================
+   PORTFOLIO ACCORDION FINAL
+========================================================= */
+
+
+.portfolio-accordion{
+
+    width:min(92%,1200px);
+
+    margin:60px auto 0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+
+
+/* ===============================
+   ITEM
+================================ */
+
+.portfolio-item{
+
+    width:100%;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:rgba(255,255,255,.025);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+}
+
+
+
+/* ===============================
+   BUTTON
+================================ */
+
+.portfolio-category{
+
+    position:relative;
+
+    width:100%;
+
+    min-height:72px;
+
+    padding:22px 30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    cursor:pointer;
+
+    border:none;
+
+    background:transparent;
+
+    color:var(--color-white);
+
+    font-family:var(--font-fa);
+
+    font-size:1rem;
+
+    text-align:right;
+
+    transition:.35s ease;
+
+}
+
+
+
+.portfolio-category:hover{
+
+    background:rgba(255,255,255,.05);
+
+}
+
+
+
+.portfolio-arrow{
+
+    font-size:1.3rem;
+
+    color:var(--color-silver);
+
+    transition:.35s ease;
+
+}
+
+
+
+/* ===============================
+   ACTIVE BUTTON
+================================ */
+
+.portfolio-item.active .portfolio-category{
+
+    background:rgba(255,255,255,.06);
+
+}
+
+
+
+.portfolio-item.active .portfolio-arrow{
+
+    transform:rotate(180deg);
+
+}
+
+
+
+/* ===============================
+   CONTENT
+================================ */
+
+.portfolio-content{
+
+    max-height:0;
+
+    overflow:hidden;
+
+    opacity:0;
+
+    transition:
+
+    max-height .5s ease,
+
+    opacity .35s ease,
+
+    padding .35s ease;
+
+    padding:0 24px;
+
+}
+
+
+
+/* OPEN */
+
+.portfolio-item.active .portfolio-content{
+
+    max-height:1200px;
+
+    opacity:1;
+
+    padding:24px;
+
+}
+
+
+
+/* ===============================
+   GALLERY
+================================ */
+
+.portfolio-gallery{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+}
+
+
+
+/* ===============================
+   IMAGE
+================================ */
+
+.portfolio-image{
+
+    width:100%;
+
+    aspect-ratio:4/5;
+
+    overflow:hidden;
+
+    border-radius:18px;
+
+    margin:0;
+
+}
+
+
+
+.portfolio-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+    transition:.5s ease;
+
+}
+
+
+
+.portfolio-image:hover img{
+
+    transform:scale(1.06);
+
+}
+
+
+
+/* ===============================
+   EMPTY
+================================ */
+
+.portfolio-empty{
+
+    padding:50px 20px;
+
+}
+
+
+
+/* ===============================
+   TABLET
+================================ */
+
+@media(max-width:992px){
+
+    .portfolio-gallery{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media(max-width:768px){
+
+
+    .portfolio-accordion{
+
+        width:100%;
+
+        padding:0 20px;
+
+    }
+
+
+    .portfolio-category{
+
+        min-height:62px;
+
+        padding:18px 22px;
+
+        font-size:.9rem;
+
+    }
+
+
+    .portfolio-gallery{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .portfolio-item.active .portfolio-content{
+
+        padding:18px;
+
+    }
+
+
+}
    /* ==========================================
      END
    =========================================================*/

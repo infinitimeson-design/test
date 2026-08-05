@@ -191,10 +191,6 @@
     PORTFOLIO
 ========================================== -->
 
-<!-- ==========================================
-    PORTFOLIO
-========================================== -->
-
 <section id="portfolio" class="portfolio section">
 
     <div class="section-header">
@@ -204,132 +200,191 @@
         </span>
 
         <h2 class="section-header__title">
-            آثار منتخب
+            نمونه‌کارها
         </h2>
 
         <p class="section-header__description">
-            برای مشاهده نمونه‌کارها، یکی از دسته‌بندی‌های زیر را انتخاب کنید.
+            برای مشاهده نمونه‌کارها، دسته‌بندی مورد نظر را انتخاب کنید.
         </p>
 
     </div>
 
 
-    <!-- Categories -->
-
-    <div class="portfolio-categories">
+    <div class="portfolio-accordion">
 
 
-        <button
-            type="button"
-            class="portfolio-category"
-            data-category="advertising">
+        <!-- Advertising -->
 
-            عکاسی تبلیغاتی و چیدمان
+        <div class="portfolio-item">
 
-        </button>
+            <button
+                type="button"
+                class="portfolio-category"
+                data-category="advertising"
+                aria-expanded="false">
 
+                <span>
+                    عکاسی تبلیغاتی و چیدمان
+                </span>
 
-        <button
-            type="button"
-            class="portfolio-category"
-            data-category="jewelry">
+                <span class="portfolio-arrow">
+                    +
+                </span>
 
-            عکاسی طلا و جواهر
-
-        </button>
-
-
-        <button
-            type="button"
-            class="portfolio-category"
-            data-category="food">
-
-            عکاسی تبلیغاتی غذا
-
-        </button>
+            </button>
 
 
-        <button
-            type="button"
-            class="portfolio-category"
-            data-category="industrial">
-
-            عکاسی صنعتی و زمینه سفید
-
-        </button>
-
-
-        <button
-            type="button"
-            class="portfolio-category"
-            data-category="birthday">
-
-            عکاسی تولد و مهمانی
-
-        </button>
-
-
-        <button
-            type="button"
-            class="portfolio-category"
-            data-category="wedding">
-
-            عکاسی مراسم عقد و ازدواج
-
-        </button>
-
-
-    </div>
-
-
-
-    <!-- Dynamic Gallery Area -->
-
-    <div id="portfolio-view">
-
-        <div class="portfolio-empty">
-
-
-            <div class="portfolio-empty__icon">
-
-                <svg viewBox="0 0 24 24"
-                     fill="none"
-                     xmlns="http://www.w3.org/2000/svg">
-
-                    <rect
-                        x="3"
-                        y="5"
-                        width="18"
-                        height="14"
-                        rx="2"
-                        stroke="currentColor"
-                        stroke-width="1.5"/>
-
-
-                    <circle
-                        cx="12"
-                        cy="12"
-                        r="3"
-                        stroke="currentColor"
-                        stroke-width="1.5"/>
-
-                </svg>
+            <div class="portfolio-content">
 
             </div>
 
-
-            <h3>
-                هنوز دسته‌ای انتخاب نشده
-            </h3>
+        </div>
 
 
-            <p>
-                برای مشاهده نمونه‌کارها،
-                یکی از دسته‌بندی‌های بالا را انتخاب کنید.
-            </p>
 
+        <!-- Jewelry -->
+
+        <div class="portfolio-item">
+
+            <button
+                type="button"
+                class="portfolio-category"
+                data-category="jewelry"
+                aria-expanded="false">
+
+                <span>
+                    عکاسی طلا و جواهر
+                </span>
+
+                <span class="portfolio-arrow">
+                    +
+                </span>
+
+            </button>
+
+
+            <div class="portfolio-content">
+
+            </div>
 
         </div>
+
+
+
+        <!-- Food -->
+
+        <div class="portfolio-item">
+
+            <button
+                type="button"
+                class="portfolio-category"
+                data-category="food"
+                aria-expanded="false">
+
+                <span>
+                    عکاسی تبلیغاتی غذا
+                </span>
+
+                <span class="portfolio-arrow">
+                    +
+                </span>
+
+            </button>
+
+
+            <div class="portfolio-content">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Industrial -->
+
+        <div class="portfolio-item">
+
+            <button
+                type="button"
+                class="portfolio-category"
+                data-category="industrial"
+                aria-expanded="false">
+
+                <span>
+                    عکاسی صنعتی و زمینه سفید
+                </span>
+
+                <span class="portfolio-arrow">
+                    +
+                </span>
+
+            </button>
+
+
+            <div class="portfolio-content">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Birthday -->
+
+        <div class="portfolio-item">
+
+            <button
+                type="button"
+                class="portfolio-category"
+                data-category="birthday"
+                aria-expanded="false">
+
+                <span>
+                    عکاسی تولد و مهمانی
+                </span>
+
+                <span class="portfolio-arrow">
+                    +
+                </span>
+
+            </button>
+
+
+            <div class="portfolio-content">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Wedding -->
+
+        <div class="portfolio-item">
+
+            <button
+                type="button"
+                class="portfolio-category"
+                data-category="wedding"
+                aria-expanded="false">
+
+                <span>
+                    عکاسی مراسم عقد و ازدواج
+                </span>
+
+                <span class="portfolio-arrow">
+                    +
+                </span>
+
+            </button>
+
+
+            <div class="portfolio-content">
+
+            </div>
+
+        </div>
+
 
     </div>
 

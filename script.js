@@ -266,9 +266,8 @@ function initHeroLogo(){
 }
 
 
-
 /* ==========================================================
-   PORTFOLIO SYSTEM
+   PORTFOLIO ACCORDION SYSTEM
 ========================================================== */
 
 
@@ -282,21 +281,16 @@ async function loadGallery(){
     try{
 
 
-        const response =
-        await fetch(
+        const response = await fetch(
             "assets/images/gallery/gallery.json"
         );
 
 
         if(!response.ok)
-            throw new Error(
-                "Gallery file not found"
-            );
+            throw new Error("Gallery not found");
 
 
-        galleryData =
-        await response.json();
-
+        galleryData = await response.json();
 
 
     }catch(error){
@@ -310,74 +304,16 @@ async function loadGallery(){
 
     }
 
-
 }
 
 
 
 
-function renderEmptyState(){
+function renderPortfolioContent(item, category){
 
 
-    DOM.portfolioView.innerHTML = `
-
-    <div class="portfolio-empty">
-
-
-        <div class="portfolio-empty__icon">
-
-            <svg viewBox="0 0 24 24"
-                 fill="none">
-
-                <rect
-                    x="3"
-                    y="5"
-                    width="18"
-                    height="14"
-                    rx="2"
-                    stroke="currentColor"
-                    stroke-width="1.5"/>
-
-
-                <circle
-                    cx="12"
-                    cy="12"
-                    r="3"
-                    stroke="currentColor"
-                    stroke-width="1.5"/>
-
-            </svg>
-
-
-        </div>
-
-
-        <h3>
-            به زودی...
-        </h3>
-
-
-        <p>
-            نمونه‌کارهای این بخش
-            به زودی اضافه می‌شوند.
-        </p>
-
-
-    </div>
-
-    `;
-
-}
-
-
-
-
-function renderPortfolio(category){
-
-
-    if(!DOM.portfolioView)
-        return;
-
+    const content =
+    item.querySelector(".portfolio-content");
 
 
     const data =
@@ -394,7 +330,24 @@ function renderPortfolio(category){
         data.images.length === 0
     ){
 
-        renderEmptyState();
+
+        content.innerHTML = `
+
+        <div class="portfolio-empty">
+
+            <h3>
+                به زودی...
+            </h3>
+
+            <p>
+                نمونه‌کارهای این بخش
+                به زودی اضافه می‌شوند.
+            </p>
+
+        </div>
+
+        `;
+
 
         return;
 
@@ -429,7 +382,6 @@ function renderPortfolio(category){
 
         </figure>
 
-
         `;
 
 
@@ -445,8 +397,7 @@ function renderPortfolio(category){
 
 
 
-    DOM.portfolioView.innerHTML =
-    html;
+    content.innerHTML = html;
 
 
 }
@@ -457,12 +408,20 @@ function renderPortfolio(category){
 function initPortfolio(){
 
 
-    if(!DOM.portfolioButtons.length)
-        return;
+    const items =
+    document.querySelectorAll(
+        ".portfolio-item"
+    );
+
+
+    const buttons =
+    document.querySelectorAll(
+        ".portfolio-category"
+    );
 
 
 
-    DOM.portfolioButtons.forEach(button=>{
+    buttons.forEach(button=>{
 
 
         button.addEventListener(
@@ -470,26 +429,62 @@ function initPortfolio(){
             ()=>{
 
 
-                DOM.portfolioButtons
-                .forEach(item=>{
-
-                    item.classList.remove(
-                        "active"
-                    );
-
-                });
+                const item =
+                button.closest(
+                    ".portfolio-item"
+                );
 
 
-
-                button.classList.add(
+                const isActive =
+                item.classList.contains(
                     "active"
                 );
 
 
 
-                renderPortfolio(
-                    button.dataset.category
-                );
+                items.forEach(other=>{
+
+
+                    other.classList.remove(
+                        "active"
+                    );
+
+
+                    other
+                    .querySelector(
+                        ".portfolio-category"
+                    )
+                    .setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+
+                });
+
+
+
+                if(!isActive){
+
+
+                    item.classList.add(
+                        "active"
+                    );
+
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+
+                    renderPortfolioContent(
+                        item,
+                        button.dataset.category
+                    );
+
+
+                }
 
 
             }
@@ -500,11 +495,6 @@ function initPortfolio(){
 
 
 }
-
-
-
-
-
 /* ==========================================================
    IMAGE SETTINGS
 ========================================================== */

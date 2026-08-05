@@ -1,441 +1,335 @@
 /* ==========================================================
    YP PRODUCT
    script.js
-   PART 1 / 4
-   Core
+   Production Version
 ========================================================== */
 
 "use strict";
 
-/* ==========================================================
-   SELECTORS
-========================================================== */
-
-const body = document.body;
-
-const navbar = document.querySelector(".navbar");
-
-const navLinks = document.querySelectorAll(".navbar__menu a");
-
-const revealElements = document.querySelectorAll(".reveal");
-
 
 /* ==========================================================
-   SCROLL NAVBAR
+   DOM REFERENCES
 ========================================================== */
 
-const updateNavbar = () => {
+const DOM = {
 
-    if (window.scrollY > 40) {
+    body: document.body,
 
-        navbar?.classList.add("scrolled");
+    navbar: document.querySelector(".navbar"),
 
-    } else {
+    navLinks: document.querySelectorAll(".navbar__menu a"),
 
-        navbar?.classList.remove("scrolled");
+    sections: document.querySelectorAll("section[id]"),
 
-    }
+    heroLogo: document.getElementById("hero-logo"),
+
+    portfolioButtons:
+        document.querySelectorAll(".portfolio-category"),
+
+    portfolioView:
+        document.getElementById("portfolio-view")
 
 };
 
-window.addEventListener("scroll", updateNavbar);
-
-updateNavbar();
 
 
 /* ==========================================================
-   ACTIVE NAV LINK
+   NAVBAR
 ========================================================== */
 
-navLinks.forEach(link => {
+function updateNavbar(){
 
-    link.addEventListener("click", () => {
-
-        navLinks.forEach(item => item.classList.remove("active"));
-
-        link.classList.add("active");
-
-    });
-
-});
+    if(!DOM.navbar) return;
 
 
-/* ==========================================================
-   REVEAL ON SCROLL
-========================================================== */
+    if(window.scrollY > 40){
 
-const revealObserver = new IntersectionObserver((entries) => {
+        DOM.navbar.classList.add("scrolled");
 
-    entries.forEach(entry => {
+    }else{
 
-        if (entry.isIntersecting) {
+        DOM.navbar.classList.remove("scrolled");
 
-            entry.target.classList.add("active");
+    }
 
-            revealObserver.unobserve(entry.target);
-
-        }
-
-    });
-
-}, {
-
-    threshold: 0.15
-
-});
-
-revealElements.forEach(element => {
-
-    revealObserver.observe(element);
-
-});
-
-
-/* ==========================================================
-   DOM READY
-========================================================== */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    updateNavbar();
-
-});
-
-/* ==========================================================
-   PART 2 / 4
-   Hero Logo (Fixed - Dark Theme Only)
-========================================================== */
-
-const heroLogo = document.getElementById("hero-logo");
-
-if (heroLogo) {
-    heroLogo.src = "assets/images/logo/logo-white.png";
 }
 
 
+window.addEventListener(
+    "scroll",
+    updateNavbar,
+    {passive:true}
+);
+
+
+
 /* ==========================================================
-   Navigation + Portfolio
    SMOOTH SCROLL
 ========================================================== */
 
-navLinks.forEach(link => {
+function initSmoothScroll(){
 
-    link.addEventListener("click", (event) => {
-
-        const targetID = link.getAttribute("href");
-
-        if (!targetID || !targetID.startsWith("#")) return;
-
-        const target = document.querySelector(targetID);
-
-        if (!target) return;
-
-        event.preventDefault();
-
-        window.scrollTo({
-
-            top: target.offsetTop - 90,
-
-            behavior: "smooth"
-
-        });
-
-    });
-
-});
+    DOM.navLinks.forEach(link=>{
 
 
-/* ==========================================================
-   ACTIVE SECTION
-========================================================== */
+        link.addEventListener(
+            "click",
+            event=>{
 
-const sections = document.querySelectorAll("section[id]");
 
-const sectionObserver = new IntersectionObserver((entries) => {
+                const targetID =
+                    link.getAttribute("href");
 
-    entries.forEach(entry => {
 
-        if (!entry.isIntersecting) return;
+                if(
+                    !targetID ||
+                    !targetID.startsWith("#")
+                ) return;
 
-        const id = entry.target.getAttribute("id");
 
-        navLinks.forEach(link => {
+                const target =
+                    document.querySelector(targetID);
 
-            link.classList.remove("active");
 
-            if (link.getAttribute("href") === `#${id}`) {
+                if(!target) return;
 
-                link.classList.add("active");
+
+                event.preventDefault();
+
+
+                window.scrollTo({
+
+                    top:
+                    target.offsetTop - 90,
+
+                    behavior:"smooth"
+
+                });
+
 
             }
+        );
 
-        });
 
     });
 
-}, {
+}
 
-    threshold: 0.45
-
-});
-
-sections.forEach(section => {
-
-    sectionObserver.observe(section);
-
-});
 
 
 /* ==========================================================
-   PORTFOLIO CARDS
+   ACTIVE NAVIGATION
 ========================================================== */
 
-const portfolioCards = document.querySelectorAll(".portfolio-card");
+function initSectionObserver(){
 
-portfolioCards.forEach(card => {
 
-    card.addEventListener("mouseenter", () => {
+    if(!DOM.sections.length) return;
 
-        portfolioCards.forEach(item => {
 
-            if (item !== card) {
+    const observer =
+    new IntersectionObserver(
+        entries=>{
 
-                item.style.opacity = ".65";
 
-                item.style.transform = "scale(.98)";
+            entries.forEach(entry=>{
 
-            }
 
-        });
+                if(!entry.isIntersecting)
+                    return;
+
+
+                const id =
+                entry.target.id;
+
+
+                DOM.navLinks.forEach(link=>{
+
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+
+                    if(
+                        link.getAttribute("href")
+                        === `#${id}`
+                    ){
+
+                        link.classList.add(
+                            "active"
+                        );
+
+                    }
+
+
+                });
+
+
+            });
+
+
+        },
+        {
+            threshold:.45
+        }
+    );
+
+
+    DOM.sections.forEach(section=>{
+
+        observer.observe(section);
 
     });
 
-    card.addEventListener("mouseleave", () => {
 
-        portfolioCards.forEach(item => {
+}
 
-            item.style.opacity = "1";
 
-            item.style.transform = "";
 
-        });
+/* ==========================================================
+   REVEAL ANIMATION
+========================================================== */
+
+function initReveal(){
+
+
+    const elements =
+    document.querySelectorAll(".reveal");
+
+
+    if(!elements.length)
+        return;
+
+
+    const observer =
+    new IntersectionObserver(
+        entries=>{
+
+
+            entries.forEach(entry=>{
+
+
+                if(
+                    entry.isIntersecting
+                ){
+
+                    entry.target
+                    .classList
+                    .add("active");
+
+
+                    observer.unobserve(
+                        entry.target
+                    );
+
+                }
+
+
+            });
+
+
+        },
+        {
+            threshold:.15
+        }
+    );
+
+
+
+    elements.forEach(element=>{
+
+        observer.observe(element);
 
     });
 
-});
 
+}
 
-/* ==========================================================
-   TOUCH DEVICES
-========================================================== */
-
-portfolioCards.forEach(card => {
-
-    card.addEventListener("touchstart", () => {
-
-        portfolioCards.forEach(item => {
-
-            item.classList.remove("active");
-
-        });
-
-        card.classList.add("active");
-
-    }, { passive: true });
-
-});
 
 
 /* ==========================================================
-   HERO SCROLL
+   HERO LOGO
 ========================================================== */
 
-const heroScroll = document.querySelector(".hero__scroll");
+function initHeroLogo(){
 
-heroScroll?.addEventListener("click", () => {
 
-    const nextSection = document.querySelector("section");
+    if(!DOM.heroLogo)
+        return;
 
-    if (!nextSection) return;
 
-    window.scrollTo({
+    DOM.heroLogo.src =
+    "assets/images/logo/logo-white.png";
 
-        top: nextSection.offsetTop - 80,
 
-        behavior: "smooth"
+}
 
-    });
-
-});
-
-/* ==========================================================
-   PART 4 / 4
-   Final
-========================================================== */
 
 
 /* ==========================================================
-   IMAGE PRELOAD
+   PORTFOLIO SYSTEM
 ========================================================== */
 
-window.addEventListener("load", () => {
-
-    document.body.classList.add("loaded");
-
-});
-
-
-/* ==========================================================
-   REMOVE ACTIVE FROM TOUCH
-========================================================== */
-
-document.addEventListener("touchstart", (event) => {
-
-    if (event.target.closest(".portfolio-card")) return;
-
-    portfolioCards.forEach(card => {
-
-        card.classList.remove("active");
-
-    });
-
-}, { passive: true });
-
-
-/* ==========================================================
-   ESC CLOSE STATES
-========================================================== */
-
-document.addEventListener("keydown", (event) => {
-
-    if (event.key !== "Escape") return;
-
-    portfolioCards.forEach(card => {
-
-        card.classList.remove("active");
-
-    });
-
-});
-
-
-/* ==========================================================
-   RESIZE HANDLER
-========================================================== */
-
-let resizeTimer;
-
-window.addEventListener("resize", () => {
-
-    clearTimeout(resizeTimer);
-
-    resizeTimer = setTimeout(() => {
-
-        updateNavbar();
-
-    }, 150);
-
-});
-
-
-/* ==========================================================
-   PERFORMANCE
-========================================================== */
-
-window.addEventListener("pageshow", () => {
-
-    updateNavbar();
-
-});
-
-
-/* ==========================================================
-   PREVENT DRAG
-========================================================== */
-
-document.querySelectorAll("img").forEach(image => {
-
-    image.setAttribute("draggable", "false");
-
-});
-
-
-/* ==========================================================
-   CONSOLE
-========================================================== */
-
-console.log("%cYP Product",
-"font-size:18px;font-weight:bold;color:#ffffff;background:#111;padding:8px 14px;border-radius:8px;");
-
-console.log("%cDesigned & Developed by Sicily Design",
-"color:#888;font-size:12px;");
-
-console.log("%cDesigned & Developed by Sicily Design",
-"color:#888;font-size:12px;");
-
-
-/* ==========================================================
-   PART 5
-   DYNAMIC PORTFOLIO GALLERY
-========================================================== */
-
-const portfolioButtons = document.querySelectorAll(
-    ".portfolio-category"
-);
 
 let galleryData = {};
 
 
-/* ==========================================================
-   LOAD JSON
-========================================================== */
 
 async function loadGallery(){
 
+
     try{
 
-        const response = await fetch(
+
+        const response =
+        await fetch(
             "assets/images/gallery/gallery.json"
         );
 
-        if(!response.ok){
 
-            throw new Error("Gallery JSON not found");
+        if(!response.ok)
+            throw new Error(
+                "Gallery file not found"
+            );
 
-        }
 
-        galleryData = await response.json();
+        galleryData =
+        await response.json();
+
 
 
     }catch(error){
 
+
         console.error(
-            "Gallery Load Error:",
+            "Gallery Error:",
             error
         );
 
+
     }
+
 
 }
 
 
 
-/* ==========================================================
-   EMPTY TEMPLATE
-========================================================== */
 
-function emptyGallery(){
+function renderEmptyState(){
 
-    return `
 
-        <div class="portfolio-empty">
+    DOM.portfolioView.innerHTML = `
 
-            <div class="portfolio-empty__icon">
+    <div class="portfolio-empty">
 
-                <svg viewBox="0 0 24 24"
-                     fill="none">
 
-                    <rect
+        <div class="portfolio-empty__icon">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none">
+
+                <rect
                     x="3"
                     y="5"
                     width="18"
@@ -444,30 +338,32 @@ function emptyGallery(){
                     stroke="currentColor"
                     stroke-width="1.5"/>
 
-                    <circle
+
+                <circle
                     cx="12"
                     cy="12"
                     r="3"
                     stroke="currentColor"
                     stroke-width="1.5"/>
 
-                </svg>
-
-            </div>
-
-
-            <h3>
-                به زودی...
-            </h3>
-
-
-            <p>
-                نمونه‌کارهای این بخش
-                به زودی اضافه می‌شوند.
-            </p>
+            </svg>
 
 
         </div>
+
+
+        <h3>
+            به زودی...
+        </h3>
+
+
+        <p>
+            نمونه‌کارهای این بخش
+            به زودی اضافه می‌شوند.
+        </p>
+
+
+    </div>
 
     `;
 
@@ -475,120 +371,30 @@ function emptyGallery(){
 
 
 
-/* ==========================================================
-   RENDER CATEGORY
-========================================================== */
 
-function renderCategory(
-    button
-){
-
-    const category =
-    button.dataset.category;
+function renderPortfolio(category){
 
 
-    const item =
-    button.closest(
-        ".portfolio-item"
-    );
+    if(!DOM.portfolioView)
+        return;
 
-
-    const content =
-    item.querySelector(
-        ".portfolio-content"
-    );
 
 
     const data =
     galleryData[category];
 
 
-    if(!data){
-
+    if(!data)
         return;
-
-    }
 
 
 
     if(
-        content.classList.contains("active")
-    ){
-
-        content.classList.remove("active");
-
-        button.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-        content.innerHTML="";
-
-        return;
-
-    }
-
-
-
-    document
-    .querySelectorAll(
-        ".portfolio-content.active"
-    )
-    .forEach(element=>{
-
-        element.classList.remove(
-            "active"
-        );
-
-        element.innerHTML="";
-
-    });
-
-
-
-    document
-    .querySelectorAll(
-        ".portfolio-category.active"
-    )
-    .forEach(element=>{
-
-        element.classList.remove(
-            "active"
-        );
-
-        element.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-    });
-
-
-
-    button.classList.add(
-        "active"
-    );
-
-
-    button.setAttribute(
-        "aria-expanded",
-        "true"
-    );
-
-
-
-    if(
+        !data.images ||
         data.images.length === 0
     ){
 
-        content.innerHTML =
-        emptyGallery();
-
-
-        content.classList.add(
-            "active"
-        );
-
+        renderEmptyState();
 
         return;
 
@@ -596,55 +402,149 @@ function renderCategory(
 
 
 
+    let html = `
 
-    const gallery = document.createElement(
-        "div"
-    );
+    <div class="portfolio-gallery">
 
-
-    gallery.className =
-    "portfolio-gallery";
+    `;
 
 
 
     data.images.forEach(image=>{
 
 
-        gallery.insertAdjacentHTML(
-            "beforeend",
+        html += `
 
-            `
+        <figure class="portfolio-image">
 
-            <figure class="portfolio-image">
+            <img
 
-                <img
+            src="assets/images/gallery/${data.folder}/${image}"
 
-                src="assets/images/gallery/${data.folder}/${image}"
+            alt="${data.title}"
 
-                alt="${data.title}"
+            loading="lazy"
 
-                loading="lazy">
+            decoding="async">
 
-            </figure>
+        </figure>
 
-            `
 
-        );
+        `;
 
 
     });
 
 
 
-    content.innerHTML="";
+    html += `
 
-    content.appendChild(
-        gallery
-    );
+    </div>
+
+    `;
 
 
-    content.classList.add(
-        "active"
+
+    DOM.portfolioView.innerHTML =
+    html;
+
+
+}
+
+
+
+
+function initPortfolio(){
+
+
+    if(!DOM.portfolioButtons.length)
+        return;
+
+
+
+    DOM.portfolioButtons.forEach(button=>{
+
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+
+                DOM.portfolioButtons
+                .forEach(item=>{
+
+                    item.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+
+                renderPortfolio(
+                    button.dataset.category
+                );
+
+
+            }
+        );
+
+
+    });
+
+
+}
+
+
+
+
+
+/* ==========================================================
+   IMAGE SETTINGS
+========================================================== */
+
+
+function disableImageDrag(){
+
+
+    document
+    .querySelectorAll("img")
+    .forEach(image=>{
+
+
+        image.draggable=false;
+
+
+    });
+
+
+}
+
+
+
+/* ==========================================================
+   PERFORMANCE
+========================================================== */
+
+
+function initPerformance(){
+
+
+    window.addEventListener(
+        "load",
+        ()=>{
+
+            DOM.body
+            .classList
+            .add("loaded");
+
+        }
     );
 
 
@@ -653,38 +553,54 @@ function renderCategory(
 
 
 /* ==========================================================
-   EVENTS
-========================================================== */
-
-portfolioButtons.forEach(button=>{
-
-
-    button.addEventListener(
-        "click",
-        ()=>{
-
-            renderCategory(
-                button
-            );
-
-        }
-
-    );
-
-
-});
-
-
-
-/* ==========================================================
    INIT
 ========================================================== */
 
+
 document.addEventListener(
     "DOMContentLoaded",
-    async ()=>{
+    async()=>{
+
+
+        updateNavbar();
+
+
+        initSmoothScroll();
+
+
+        initSectionObserver();
+
+
+        initReveal();
+
+
+        initHeroLogo();
+
 
         await loadGallery();
+
+
+        initPortfolio();
+
+
+        disableImageDrag();
+
+
+        initPerformance();
+
+
+
+        console.log(
+            "%cYP Product",
+            "font-size:18px;font-weight:bold;color:white;background:#111;padding:8px 14px;border-radius:8px;"
+        );
+
+
+        console.log(
+            "%cDesigned & Developed by Sicily Design",
+            "color:#888;font-size:12px;"
+        );
+
 
     }
 );

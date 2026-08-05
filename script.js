@@ -376,47 +376,58 @@ console.log("%cDesigned & Developed by Sicily Design",
 
 /* ==========================================================
    PART 5
-   Dynamic Portfolio
+   DYNAMIC PORTFOLIO GALLERY
 ========================================================== */
+
+const portfolioButtons = document.querySelectorAll(
+    ".portfolio-category"
+);
+
+let galleryData = {};
+
 
 /* ==========================================================
-   PORTFOLIO DYNAMIC GALLERY
+   LOAD JSON
 ========================================================== */
 
-const portfolioButtons = document.querySelectorAll(".portfolio-category");
-const portfolioView = document.getElementById("portfolio-view");
+async function loadGallery(){
 
-let gallery = {};
+    try{
 
-/* -------------------- */
+        const response = await fetch(
+            "assets/images/gallery/gallery.json"
+        );
 
-async function loadGallery() {
+        if(!response.ok){
 
-    try {
+            throw new Error("Gallery JSON not found");
 
-        const response = await fetch("assets/images/gallery/gallery.json");
+        }
 
-        gallery = await response.json();
+        galleryData = await response.json();
 
-    } catch (error) {
 
-        console.error("Gallery JSON Error", error);
+    }catch(error){
+
+        console.error(
+            "Gallery Load Error:",
+            error
+        );
 
     }
 
 }
 
-/* -------------------- */
 
-function renderCategory(category) {
 
-    const data = gallery[category];
+/* ==========================================================
+   EMPTY TEMPLATE
+========================================================== */
 
-    if (!data) return;
+function emptyGallery(){
 
-    if (!data.images.length) {
+    return `
 
-        portfolioView.innerHTML = `
         <div class="portfolio-empty">
 
             <div class="portfolio-empty__icon">
@@ -424,93 +435,256 @@ function renderCategory(category) {
                 <svg viewBox="0 0 24 24"
                      fill="none">
 
-                    <rect x="3" y="5"
-                          width="18"
-                          height="14"
-                          rx="2"
-                          stroke="currentColor"
-                          stroke-width="1.5"/>
+                    <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"
+                    rx="2"
+                    stroke="currentColor"
+                    stroke-width="1.5"/>
 
-                    <circle cx="12"
-                            cy="12"
-                            r="3"
-                            stroke="currentColor"
-                            stroke-width="1.5"/>
+                    <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                    stroke="currentColor"
+                    stroke-width="1.5"/>
 
                 </svg>
 
             </div>
 
-            <h3>به زودی...</h3>
+
+            <h3>
+                به زودی...
+            </h3>
+
 
             <p>
-
                 نمونه‌کارهای این بخش
                 به زودی اضافه می‌شوند.
-
             </p>
 
+
         </div>
-        `;
+
+    `;
+
+}
+
+
+
+/* ==========================================================
+   RENDER CATEGORY
+========================================================== */
+
+function renderCategory(
+    button
+){
+
+    const category =
+    button.dataset.category;
+
+
+    const item =
+    button.closest(
+        ".portfolio-item"
+    );
+
+
+    const content =
+    item.querySelector(
+        ".portfolio-content"
+    );
+
+
+    const data =
+    galleryData[category];
+
+
+    if(!data){
 
         return;
 
     }
 
-    let html = `<div class="portfolio-gallery">`;
 
-    data.images.forEach(image => {
 
-        html += `
+    if(
+        content.classList.contains("active")
+    ){
 
-        <figure class="portfolio-image">
+        content.classList.remove("active");
 
-            <img
-                src="assets/images/gallery/${data.folder}/${image}"
-                alt="${data.title}"
-                loading="lazy">
+        button.setAttribute(
+            "aria-expanded",
+            "false"
+        );
 
-        </figure>
+        content.innerHTML="";
 
-        `;
+        return;
+
+    }
+
+
+
+    document
+    .querySelectorAll(
+        ".portfolio-content.active"
+    )
+    .forEach(element=>{
+
+        element.classList.remove(
+            "active"
+        );
+
+        element.innerHTML="";
 
     });
 
-    html += `</div>`;
 
-    portfolioView.innerHTML = html;
+
+    document
+    .querySelectorAll(
+        ".portfolio-category.active"
+    )
+    .forEach(element=>{
+
+        element.classList.remove(
+            "active"
+        );
+
+        element.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    });
+
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    button.setAttribute(
+        "aria-expanded",
+        "true"
+    );
+
+
+
+    if(
+        data.images.length === 0
+    ){
+
+        content.innerHTML =
+        emptyGallery();
+
+
+        content.classList.add(
+            "active"
+        );
+
+
+        return;
+
+    }
+
+
+
+
+    const gallery = document.createElement(
+        "div"
+    );
+
+
+    gallery.className =
+    "portfolio-gallery";
+
+
+
+    data.images.forEach(image=>{
+
+
+        gallery.insertAdjacentHTML(
+            "beforeend",
+
+            `
+
+            <figure class="portfolio-image">
+
+                <img
+
+                src="assets/images/gallery/${data.folder}/${image}"
+
+                alt="${data.title}"
+
+                loading="lazy">
+
+            </figure>
+
+            `
+
+        );
+
+
+    });
+
+
+
+    content.innerHTML="";
+
+    content.appendChild(
+        gallery
+    );
+
+
+    content.classList.add(
+        "active"
+    );
+
 
 }
 
-/* -------------------- */
-
-portfolioButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        portfolioButtons.forEach(item => {
-
-            item.classList.remove("active");
-
-        });
-
-        button.classList.add("active");
-
-        renderCategory(button.dataset.category);
-
-    });
-
-});
-
-/* -------------------- */
-
-document.addEventListener("DOMContentLoaded", async () => {
-
-    await loadGallery();
-
-});
 
 
 /* ==========================================================
-   END
+   EVENTS
 ========================================================== */
+
+portfolioButtons.forEach(button=>{
+
+
+    button.addEventListener(
+        "click",
+        ()=>{
+
+            renderCategory(
+                button
+            );
+
+        }
+
+    );
+
+
+});
+
+
+
+/* ==========================================================
+   INIT
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async ()=>{
+
+        await loadGallery();
+
+    }
+);

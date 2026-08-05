@@ -335,88 +335,6 @@ p{
 }
 
 /* =========================================================
-   BUTTONS
-=========================================================*/
-
-.btn{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:10px;
-
-    min-width:170px;
-
-    height:56px;
-
-    padding:0 34px;
-
-    border-radius:999px;
-
-    font-family:var(--font-fa);
-
-    font-size:.95rem;
-
-    font-weight:500;
-
-    transition:var(--transition);
-
-    user-select:none;
-
-    overflow:hidden;
-
-    position:relative;
-
-}
-
-.btn-primary{
-
-    border:1px solid var(--color-border);
-
-    color:var(--color-white);
-
-    background:transparent;
-
-    backdrop-filter:blur(10px);
-
-    -webkit-backdrop-filter:blur(10px);
-
-}
-
-.btn-primary:hover{
-
-    transform:translateY(-3px);
-
-    border-color:rgba(255,255,255,.18);
-
-}
-
-.btn-secondary{
-
-    border:1px solid var(--color-border);
-
-    color:var(--color-white);
-
-    backdrop-filter:blur(10px);
-
-    -webkit-backdrop-filter:blur(10px);
-
-}
-
-.btn-secondary:hover{
-
-    background:rgba(255,255,255,.06);
-
-    transform:translateY(-3px);
-
-}
-
-
-
-/* =========================================================
    CARD SYSTEM
 =========================================================*/
 
@@ -2061,57 +1979,6 @@ body,
 
 
 
-/* ==========================================
-   BUTTON
-==========================================*/
-
-.btn{
-
-    overflow:hidden;
-
-}
-
-
-.btn::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    left:-120%;
-
-    width:100%;
-
-    height:100%;
-
-    background:
-
-    linear-gradient(
-
-        90deg,
-
-        transparent,
-
-        rgba(255,255,255,.25),
-
-        transparent
-
-    );
-
-    transition:.75s;
-
-}
-
-
-.btn:hover::before{
-
-    left:120%;
-
-}
-
-
 
 /* ==========================================
    LINK
@@ -3645,6 +3512,260 @@ test
 .portfolio-content{
 
     border-radius:0 0 22px 22px;
+
+}
+
+/* =========================================================
+   LIQUID GLASS BUTTON SYSTEM
+=========================================================*/
+
+.btn{
+
+    position:relative;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    min-width:170px;
+
+    height:56px;
+
+    padding:0 34px;
+
+    border-radius:999px;
+
+    font-family:var(--font-fa);
+
+    font-size:.95rem;
+
+    font-weight:500;
+
+    color:var(--color-white);
+
+    cursor:pointer;
+
+    user-select:none;
+
+    overflow:hidden;
+
+    isolation:isolate;
+
+    border:1px solid rgba(255,255,255,.16);
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,255,255,.12),
+
+        rgba(255,255,255,.03)
+
+    );
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+
+    box-shadow:
+
+    inset 1px 1px 1px rgba(255,255,255,.35),
+
+    inset -1px -1px 1px rgba(255,255,255,.08),
+
+    0 15px 35px rgba(0,0,0,.25);
+
+
+    transition:
+
+    transform .45s cubic-bezier(.22,.61,.36,1),
+
+    border-color .35s ease,
+
+    background .35s ease;
+
+}
+
+
+
+/* ---------- Inner Light ---------- */
+
+.btn::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:1px;
+
+    border-radius:inherit;
+
+    background:
+
+    linear-gradient(
+
+        180deg,
+
+        rgba(255,255,255,.18),
+
+        transparent 45%
+
+    );
+
+    pointer-events:none;
+
+    z-index:-1;
+
+}
+
+
+
+/* ---------- Shine ---------- */
+
+.btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:70%;
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.35),
+
+        transparent
+
+    );
+
+    transform:skewX(-25deg);
+
+    transition:.8s;
+
+}
+
+
+
+/* ---------- Hover ---------- */
+
+.btn:hover{
+
+    transform:
+
+    translateY(-4px)
+
+    scale(1.03);
+
+
+    border-color:
+
+    rgba(255,255,255,.35);
+
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,255,255,.18),
+
+        rgba(255,255,255,.05)
+
+    );
+
+
+    box-shadow:
+
+    inset 1px 1px 2px rgba(255,255,255,.45),
+
+    0 20px 45px rgba(0,0,0,.35);
+
+}
+
+
+
+.btn:hover::before{
+
+    left:160%;
+
+}
+
+
+
+/* =========================================================
+   PRIMARY / SECONDARY COLOR CONTROL
+=========================================================*/
+
+
+.btn-primary{
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,255,255,.16),
+
+        rgba(255,255,255,.04)
+
+    );
+
+}
+
+
+
+.btn-secondary{
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,255,255,.08),
+
+        rgba(255,255,255,.02)
+
+    );
+
+}
+
+
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:768px){
+
+    .btn{
+
+        min-width:150px;
+
+        height:52px;
+
+        padding:0 26px;
+
+    }
 
 }
    /* ==========================================

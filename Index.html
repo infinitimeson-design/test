@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- =========================================================
+       NIGHT WAR — DOCUMENT HEAD
+       عنوان، فونت‌ها و فایل‌های اصلی CSS در این قسمت قرار دارند.
+       پروژه Static / Mobile First است و Build Step ندارد.
+       ========================================================= -->
+
+  <title>Night War — شب‌های مافیا</title>
+  <meta name="description" content="Night War — شب‌های مافیا؛ یک تجربه سینمایی از اعتماد، تردید و تصمیم.">
+  <meta name="theme-color" content="#000000">
+
+  <!-- =========================================================
+       FONTS
+       Estedad فونت اصلی فارسی پروژه است.
+       ========================================================= -->
+  <link rel="stylesheet" href="assets/fonts/Estedad/estedad.css">
+
+  <!-- =========================================================
+       DESIGN SYSTEM / BASE
+       توکن‌ها، پایه، Motion و Componentهای مشترک.
+       ========================================================= -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/motion.css">
+
+  <link rel="stylesheet" href="css/components/glass.css">
+  <link rel="stylesheet" href="css/components/button.css">
+  <link rel="stylesheet" href="css/components/card.css">
+  <link rel="stylesheet" href="css/components/nav.css">
+  <link rel="stylesheet" href="css/components/envelope.css">
+  <link rel="stylesheet" href="css/components/sheet.css">
+
+  <!-- =========================================================
+       SECTION STYLES
+       استایل اختصاصی هر بخش صفحه.
+       ========================================================= -->
+  <link rel="stylesheet" href="css/sections/hero.css">
+  <link rel="stylesheet" href="css/sections/scenarios.css">
+  <link rel="stylesheet" href="css/sections/about.css">
+  <link rel="stylesheet" href="css/sections/contact.css">
+  <link rel="stylesheet" href="css/sections/footer.css">
+</head>
+
+<body>
+
+  <!-- =========================================================
+       GLOBAL ATMOSPHERE
+       لایه‌های بصری ثابت کل سایت:
+       - Grain
+       - Ambient atmosphere
+       - Scroll progress
+       هیچ رنگی خارج از Design System نباید در این لایه‌ها ساخته شود.
+       ========================================================= -->
+  <div class="bg-grain" aria-hidden="true"></div>
+  <div class="bg-atmosphere" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+
+  <!-- =========================================================
+       MOBILE NAVIGATION OVERLAY
+       منوی موبایل و لینک‌های اصلی سایت.
+       ========================================================= -->
+  <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+    <a href="#top">خانه</a>
+    <a href="#scenarios">سناریو</a>
+    <a href="#scenarios">نقش‌ها</a>
+    <a href="#about">درباره</a>
+    <a href="#contact">تماس</a>
+  </div>
+
+
+  <main>
+
+    <!-- =======================================================
+         01 — TOP NAVIGATION
+         نوار بالای سایت.
+         در Mobile اولویت با دسترسی سریع و کمترین اشغال فضاست.
+         ======================================================= -->
+    <nav class="topnav glass" id="top" aria-label="ناوبری اصلی">
+      <a class="logo" href="#top" aria-label="Night War — خانه">
+        NIGHT <b>WAR</b>
+      </a>
+
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        type="button"
+        aria-label="باز کردن منو"
+        aria-expanded="false"
+        aria-controls="menuOverlay"
+      >
+        ☰
+      </button>
+    </nav>
+
+
+    <!-- =======================================================
+         02 — HERO
+         Hero فعلی کاملاً 2D است.
+         3D / Three.js / WebGL / Model در نسخه فعلی پروژه وجود ندارد.
+
+         ساختار بصری:
+         Artwork / Atmosphere
+         → Label
+         → Headline
+         → Supporting Copy
+         → CTA
+         → Scroll Hint
+
+         تصویر Hero در CSS/Asset قابل اتصال است؛
+         لایه‌بندی و Motion توسط سیستم Motion پروژه کنترل می‌شود.
+         ======================================================= -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+
+      <!-- Artwork / cinematic visual layer -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-image"></div>
+        <div class="hero-vignette"></div>
+        <div class="hero-light"></div>
+      </div>
+
+      <!-- Hero copy -->
+      <div class="hero-content">
+        <p class="hero-label">شب‌های مافیا</p>
+
+        <h1 class="hero-title" id="hero-title">
+          شب، همه‌چیز را<br>
+          تغییر می‌دهد
+        </h1>
+
+        <p class="hero-sub">
+          در شهری که حقیقت پشت هر چهره پنهان است، اعتماد همیشه یک ریسک است.
+        </p>
+
+        <p class="hero-label-bottom">
+          یک بازی از جنس اعتماد و تردید
+        </p>
+
+        <!-- Hero actions -->
+        <div class="btn-row">
+          <a class="btn is-primary" href="#scenarios" data-ripple>
+            ورود به بازی
+          </a>
+
+          <a class="btn is-ghost" href="#scenarios" data-ripple>
+            مشاهده سناریو
+          </a>
+        </div>
+      </div>
+
+      <!-- Scroll cue -->
+      <div class="scroll-hint anim-bob" aria-hidden="true">
+        اسکرول کن
+      </div>
+    </section>
+
+
+    <!-- =======================================================
+         03 — INTRODUCTION
+         معرفی کوتاه جهان Night War.
+         متن عمداً کوتاه است؛ تصویر و Motion بخش اصلی روایت را انجام می‌دهند.
+         ======================================================= -->
+    <section class="intro-section" aria-labelledby="intro-title">
+      <p class="eyebrow" data-reveal>NIGHT WAR</p>
+
+      <h2 class="section-title" id="intro-title" data-reveal>
+        اینجا، هر کسی یک نقش دارد
+      </h2>
+
+      <p class="lede" data-reveal>
+        در هر شب، تصمیم‌ها عوض می‌شوند و هر چهره می‌تواند چیزی را پنهان کرده باشد.
+      </p>
+    </section>
+
+
+    <!-- =======================================================
+         04 — SCENARIOS
+         نمایش سناریوها.
+         Cardها توسط carousel.js از data/scenarios.json ساخته می‌شوند.
+
+         Flow:
+         Scenario Card
+         → Scenario Story
+         → Stats
+         → Roles
+         → Role Detail Sheet
+         ======================================================= -->
+    <section id="scenarios" class="scenarios-section" aria-labelledby="scenarios-title">
+
+      <header class="section-heading">
+        <p class="eyebrow" data-reveal>سناریوها</p>
+
+        <h2 class="section-title" id="scenarios-title" data-reveal>
+          هر شب، یک بازی تازه
+        </h2>
+
+        <p class="lede" data-reveal>
+          سناریوها قوانین، نقش‌ها و مسیر متفاوتی برای بازی می‌سازند.
+        </p>
+      </header>
+
+      <!-- Scenario horizontal mobile carousel -->
+      <div
+        class="carousel"
+        id="carousel"
+        aria-label="سناریوها"
+      >
+        <!-- توسط js/modules/carousel.js پر می‌شود -->
+      </div>
+
+      <!-- Carousel pagination -->
+      <div class="dots" id="dots" aria-hidden="true"></div>
+
+      <!-- Scenario story + role flow -->
+      <div class="panel-collapse" id="storyPanel">
+        <div id="storyInner">
+          <!-- توسط js/modules/scenario-flow.js ساخته می‌شود -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =======================================================
+         05 — ENVELOPE / SECRET FILE
+         تعامل فیزیکی پاکت محرمانه.
+         بدون JS Animation سنگین؛ ساختار باز/بسته توسط envelope.js
+         و Motion اصلی توسط CSS کنترل می‌شود.
+         ======================================================= -->
+    <section class="envelope-section" aria-labelledby="envelope-title">
+
+      <header class="section-heading">
+        <p class="eyebrow" data-reveal>پرونده</p>
+
+        <h2 class="section-title" id="envelope-title" data-reveal>
+          محرمانه
+        </h2>
+
+        <p class="lede" data-reveal>
+          برای ورود، پاکت را باز کن.
+        </p>
+      </header>
+
+      <!-- Physical envelope -->
+      <div class="envelope-wrap">
+        <button
+          class="envelope"
+          id="envelope"
+          type="button"
+          aria-label="باز کردن پرونده"
+          aria-expanded="false"
+        >
+          <span class="env-label">NIGHT WAR</span>
+
+          <span class="paper">
+            <b>پرونده بازی</b>
+            جمعه، ساعت ۲۱:۰۰<br>
+            مکان دقیق پس از هماهنگی با گرداننده اعلام می‌شود.
+          </span>
+
+          <span class="env-back"></span>
+          <span class="seal">NW</span>
+          <span class="env-flap"></span>
+        </button>
+      </div>
+
+      <p class="envelope-hint" id="envHint">
+        لمس کن تا باز بشه
+      </p>
+
+      <div class="envelope-actions">
+        <button class="btn" id="closeEnvBtn" type="button" data-ripple>
+          بستن پاکت
+        </button>
+      </div>
+    </section>
+
+
+    <!-- =======================================================
+         06 — ABOUT
+         معرفی کوتاه Night War.
+         ======================================================= -->
+    <section id="about" class="about-section" aria-labelledby="about-title">
+
+      <header class="section-heading">
+        <p class="eyebrow" data-reveal>درباره Night War</p>
+
+        <h2 class="section-title" id="about-title" data-reveal>
+          بازی، فقط بازی نیست
+        </h2>
+      </header>
+
+      <div class="glass-panel">
+        <p class="about-body" data-reveal>
+          Night War یک تجربه برای کسانی است که از بازی کردن با اعتماد،
+          شک و تصمیم لذت می‌برند.
+          اینجا هر شب یک داستان تازه ساخته می‌شود؛
+          اما پایان آن را هیچ‌کس از قبل نمی‌داند.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- =======================================================
+         07 — ATTENDANCE / CONTACT
+         ثبت حضور فقط از طریق اطلاعات گرداننده انجام می‌شود.
+
+         هیچ:
+         - Login
+         - Register
+         - User Account
+         - فرم ثبت‌نام
+         وجود ندارد.
+
+         سه مسیر ارتباطی:
+         تماس / تلگرام / اینستاگرام
+         ======================================================= -->
+    <section id="contact" class="contact-section" aria-labelledby="contact-title">
+
+      <header class="section-heading">
+        <p class="eyebrow" data-reveal>ثبت حضور</p>
+
+        <h2 class="section-title" id="contact-title" data-reveal>
+          شب ادامه دارد
+        </h2>
+
+        <p class="lede" data-reveal>
+          برای ثبت حضور یا هماهنگی بیشتر، با گرداننده بازی در ارتباط باش.
+        </p>
+      </header>
+
+      <div class="contact-actions">
+
+        <!-- شماره واقعی گرداننده هنگام اتصال نهایی جایگزین می‌شود -->
+        <a class="btn is-primary is-full" href="tel:+989120000000" data-ripple>
+          تماس
+        </a>
+
+        <a
+          class="btn is-full"
+          href="https://t.me/nightwarevent"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-ripple
+        >
+          تلگرام
+        </a>
+
+        <a
+          class="btn is-full"
+          href="https://instagram.com/nightwarevent"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-ripple
+        >
+          اینستاگرام
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- =======================================================
+         08 — FOOTER
+         Footer نسخه فعلی عمداً 2D و مینیمال است.
+         3D / Particle / WebGL در Scope فعلی وجود ندارد.
+
+         پایان تجربه:
+         Brand
+         → Closing Line
+         → Navigation
+         → Contact Icons
+         → Attribution
+         ======================================================= -->
+    <footer id="footer" class="site-footer">
+
+      <div class="footer-inner">
+
+        <p class="footer-brand">NIGHT WAR</p>
+
+        <p class="footer-closing">
+          شب تمام می‌شود. بازی نه.
+        </p>
+
+        <!-- Footer navigation -->
+        <nav class="footer-nav" aria-label="ناوبری فوتر">
+          <a href="#top">خانه</a>
+          <a href="#scenarios">سناریو</a>
+          <a href="#about">درباره</a>
+          <a href="#contact">تماس</a>
+        </nav>
+
+        <!-- Footer contact shortcuts -->
+        <div class="footer-icons">
+
+          <a
+            href="tel:+989120000000"
+            class="btn is-icon"
+            aria-label="تماس"
+          >
+            ☎
+          </a>
+
+          <a
+            href="https://t.me/nightwarevent"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn is-icon"
+            aria-label="تلگرام"
+          >
+            ✈
+          </a>
+
+          <a
+            href="https://instagram.com/nightwarevent"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn is-icon"
+            aria-label="اینستاگرام"
+          >
+            ◎
+          </a>
+
+        </div>
+
+        <p class="footer-credit">
+          Direct by meti sicily, craft by sc dev
+        </p>
+
+      </div>
+    </footer>
+
+  </main>
+
+
+  <!-- =========================================================
+       09 — ROLE DETAIL BOTTOM SHEET
+       Bottom Sheet مشترک تمام Roleها.
+       اطلاعات از roles.json وارد می‌شود.
+       ========================================================= -->
+  <div
+    class="sheet-backdrop"
+    id="sheetBackdrop"
+    aria-hidden="true"
+  ></div>
+
+  <aside
+    class="sheet"
+    id="sheet"
+    aria-labelledby="sheetName"
+    aria-modal="true"
+    role="dialog"
+  >
+    <div class="handle" aria-hidden="true"></div>
+
+    <p class="sheet-side" id="sheetSide"></p>
+
+    <h3 id="sheetName"></h3>
+
+    <p class="sheet-identity" id="sheetIdentity"></p>
+
+    <p class="ability-label">ABILITY</p>
+
+    <p class="sheet-ability" id="sheetAbility"></p>
+
+    <button
+      class="btn is-primary is-full"
+      id="sheetClose"
+      type="button"
+      data-ripple
+    >
+      بازگشت
+    </button>
+  </aside>
+
+
+  <!-- =========================================================
+       10 — JAVASCRIPT ENTRY
+       فقط Entry Point اصلی.
+       ماژول‌های داخلی از اینجا مدیریت می‌شوند.
+       ========================================================= -->
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html> 

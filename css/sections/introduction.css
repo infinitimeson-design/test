@@ -1,0 +1,28 @@
+/* INTRODUCTION SECTION — the poetic multi-paragraph copy read right before
+   the Scenarios section. No video (per the locked video-placement rule:
+   Hero + Footer only). Each paragraph is [data-reveal] for the blur-to-focus
+   system; this file only sets the typography, never the reveal mechanics. */
+
+.intro-text p {
+  font-size: 14px;
+  line-height: 2.1;
+  color: var(--c-text-dim);
+  margin: 0 0 var(--space-4);
+}
+
+.intro-text p:last-child {
+  margin-bottom: 0;
+}
+
+.intro-lead {
+  font-size: 17px;
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+.intro-emphasis {
+  font-size: 19px;
+  color: var(--c-secondary);
+  font-weight: 700;
+  margin: var(--space-5) 0;
+}

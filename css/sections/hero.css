@@ -1,0 +1,91 @@
+/*
+  HERO SECTION — 2D cinematic, no 3D.
+  A real video (js has no role here — it's a plain <video> element) fills
+  the section behind a dark readability overlay; text/CTA sit in their own
+  layer above it and are never covered by the video (Puppet/video = visual,
+  Text = narrative, CTA = action — kept as three distinct, always-legible
+  layers). #heroFallback is the poster-image-based state shown before the
+  video can play and whenever prefers-reduced-motion is set.
+*/
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-media video,
+.hero-media .hero-fallback-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero-media .hero-fallback-img {
+  background: radial-gradient(ellipse 60% 50% at 50% 35%, var(--c-burgundy-a3d), transparent 70%), var(--c-black);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, var(--c-black-a59), var(--c-black-abf) 70%, var(--c-black-ae6));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: var(--space-8) var(--space-5);
+}
+
+.hero-label {
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: var(--c-secondary);
+  margin-bottom: var(--space-2);
+}
+.hero-title {
+  font-size: var(--fs-hero);
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0 0 var(--space-2);
+}
+.hero-sub {
+  font-size: 13.5px;
+  color: var(--c-cream-ab8);
+  max-width: 30ch;
+  margin: 0 auto var(--space-2);
+}
+.hero-label-bottom {
+  font-size: 11.5px;
+  color: var(--c-secondary);
+  margin-bottom: var(--space-6);
+}
+
+/* scroll cue — locked copy «به پایین اسکرول کنید» + a small vertical line */
+.scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-7);
+  opacity: .75;
+}
+.scroll-cue .cue-line {
+  width: 1px;
+  height: 26px;
+  background: linear-gradient(var(--c-secondary), transparent);
+}
+.scroll-cue span {
+  font-size: 11px;
+  letter-spacing: .14em;
+  color: var(--c-secondary);
+}

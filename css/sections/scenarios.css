@@ -1,0 +1,111 @@
+/*
+  SCENARIOS SECTION.
+  Flow (locked): carousel → tap "ورود به سناریو" → story+stats step →
+  tap "شناخت نقش‌ها" → role grid (scoped to that scenario only).
+  Carousel focus-tracking lives in js/modules/carousel.js using
+  IntersectionObserver (not per-scroll-frame math) to avoid fighting the
+  browser's native scroll-snap physics.
+*/
+
+.carousel {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: var(--space-3) 6vw var(--space-4);
+  margin: 0 calc(var(--space-5) * -1);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.carousel::-webkit-scrollbar { display: none; }
+
+.scen-card {
+  scroll-snap-align: center;
+  flex: 0 0 78vw;
+  max-width: 300px;
+  transition: transform var(--t-component) var(--ease-cinematic), opacity var(--t-component) var(--ease-cinematic);
+  transform: scale(.9);
+  opacity: .55;
+}
+.scen-card.is-focused { transform: scale(1); opacity: 1; }
+
+.dots { display: flex; justify-content: center; gap: var(--space-1); margin-top: var(--space-1); }
+.dot {
+  width: var(--touch-min);
+  height: var(--touch-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.dot::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-cream-a40);
+  transition: all var(--t-micro) var(--ease-cinematic);
+}
+.dot.is-active::before { background: var(--c-secondary); width: 18px; border-radius: 4px; }
+
+/* --- Step 1: story + stats --- */
+.story-panel .glass-panel { padding: var(--space-6) var(--space-5); }
+.story-panel h3 { margin: 0 0 4px; font-size: 20px; }
+.story-panel .story-sub { font-size: 11px; color: var(--c-cream-a80); margin: 0 0 var(--space-5); }
+.story-panel p.story-line { font-size: 13px; line-height: 2; color: var(--c-text-dim); margin: 0 0 var(--space-3); }
+.story-endline { font-size: 14px; color: var(--c-secondary); font-weight: 600; margin: var(--space-5) 0; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  margin: var(--space-5) 0 var(--space-5);
+}
+.stat-box {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  text-align: center;
+  background: var(--c-white-a05);
+}
+.stat-box b { display: block; font-size: 16px; color: var(--c-secondary); margin-bottom: 2px; }
+.stat-box span { font-size: 10.5px; color: var(--c-cream-a8c); }
+
+/* --- Step 2: roles (nested reveal inside the story panel) --- */
+.roles-step {
+  border-top: 1px solid var(--glass-border);
+  padding-top: var(--space-5);
+}
+.roles-step .eyebrow { margin-top: var(--space-5); }
+.roles-step-title { font-size: 18px; margin: 0 0 4px; }
+.role-tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
+.role-tab {
+  flex: 1;
+  min-height: var(--touch-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--c-white-a05);
+  color: var(--c-cream-aa6);
+  transition: all var(--t-micro) var(--ease-cinematic);
+  cursor: pointer;
+}
+.role-tab.is-active { color: var(--c-text); border-color: var(--accent-border); background: var(--accent-bg); }
+
+.side-intro { font-size: 12px; line-height: 1.9; color: var(--c-cream-aa6); margin: 0 0 var(--space-4); }
+
+.side-intro-note {
+  font-size: 12px;
+  color: var(--c-cream-a99);
+  margin: 0 0 var(--space-4);
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}

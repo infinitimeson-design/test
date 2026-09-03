@@ -1,0 +1,71 @@
+/*
+  BACKGROUND — the shared animated liquid/ambient gradient world.
+  Fixed behind everything, pure CSS keyframes (no JS driving it), so it
+  keeps moving during scroll without costing a single frame of JS. Built
+  from soft blurred blobs of the locked colors only, slow and organic —
+  inspired only for direction (organic movement, liquid depth, soft
+  blending) by a CodePen reference, not copied from it, and with no
+  WebGL/Three.js involved at all.
+*/
+
+.bg-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--c-black);
+  overflow: hidden;
+}
+
+.bg-atmosphere span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.bg-blob-1 {
+  width: 70vw;
+  height: 70vw;
+  background: var(--c-burgundy);
+  opacity: 0.35;
+  top: -15%;
+  right: -15%;
+  animation: bgDrift1 26s ease-in-out infinite;
+}
+.bg-blob-2 {
+  width: 60vw;
+  height: 60vw;
+  background: var(--c-beige);
+  opacity: 0.14;
+  bottom: -10%;
+  left: -20%;
+  animation: bgDrift2 32s ease-in-out infinite;
+}
+.bg-blob-3 {
+  width: 50vw;
+  height: 50vw;
+  background: var(--c-burgundy);
+  opacity: 0.2;
+  top: 40%;
+  left: 10%;
+  animation: bgDrift3 38s ease-in-out infinite;
+}
+
+@keyframes bgDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-8%, 10%) scale(1.15); }
+}
+@keyframes bgDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(10%, -8%) scale(1.1); }
+}
+@keyframes bgDrift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-6%, -12%) scale(1.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-atmosphere span { animation: none; }
+}

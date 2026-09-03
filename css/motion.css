@@ -1,0 +1,149 @@
+/*
+  MOTION SYSTEM — the one shared animation language for the site.
+  Character: slow, controlled, cinematic, weighted. Never bouncy/elastic/flashy.
+  Only transform/opacity/filter are animated (composite-safe, never layout-triggering).
+
+  js/modules/motion-system.js sets --reveal-progress (0 → 1) on each
+  [data-reveal] element via IntersectionObserver. This file only defines how
+  that progress number maps to a visual effect — motion-system.js knows
+  nothing about blur amounts or timing curves, and this file knows nothing
+  about scroll math. That separation is intentional: an art-direction change
+  (e.g. more blur) is a CSS-only edit here.
+*/
+
+/* ---- Locked rule: progressive blur-to-focus on every text reveal ---- */
+[data-reveal] {
+  --reveal-progress: 0;
+  opacity: var(--reveal-progress);
+  filter: blur(calc((1 - var(--reveal-progress)) * var(--reveal-blur-max)));
+  transform: translateY(calc((1 - var(--reveal-progress)) * var(--reveal-translate)));
+  transition:
+    opacity var(--t-cinematic) var(--ease-cinematic),
+    filter var(--t-cinematic) var(--ease-cinematic),
+    transform var(--t-cinematic) var(--ease-cinematic);
+  will-change: opacity, filter, transform;
+}
+
+/* staggered children within a revealing section — each child reads its own
+   --reveal-progress, set by motion-system.js with a small index-based delay */
+[data-reveal-group] > [data-reveal] {
+  transition-delay: calc(var(--reveal-index, 0) * 90ms);
+}
+
+/* ---- Simple in/out reveal (no blur) for large structural blocks, e.g. cards,
+   the story panel, the roles panel — blur is reserved for text per the lock,
+   large surfaces just fade/slide ---- */
+[data-reveal-block] {
+  --reveal-progress: 0;
+  opacity: var(--reveal-progress);
+  transform: translateY(calc((1 - var(--reveal-progress)) * 28px));
+  transition: opacity var(--t-cinematic) var(--ease-cinematic), transform var(--t-cinematic) var(--ease-cinematic);
+}
+
+/* ---- Collapsible panels (story step, roles step, menu) ---- */
+.panel-collapse {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height var(--t-cinematic) var(--ease-cinematic), opacity var(--t-component) var(--ease-cinematic);
+}
+.panel-collapse.is-open {
+  max-height: 2000px;
+  opacity: 1;
+  margin-top: var(--space-5);
+}
+
+/* ---- Shared keyframes ---- */
+@keyframes fadeUpIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+@keyframes rippleOut {
+  to { transform: scale(3); opacity: 0; }
+}
+
+.anim-fade-up { animation: fadeUpIn var(--t-cinematic) var(--ease-cinematic) forwards; }
+.anim-bob     { animation: bob 2.4s ease-in-out infinite; }
+
+/* ---- Stacked-chapters scroll ----
+   Each major section is a full-screen "chapter": position:sticky pins it at
+   the top of the viewport while the NEXT section's sticky element (later in
+   the DOM, higher z-index) scrolls up and visually covers it — the effect
+   the spec calls "next section rises from below and covers the previous
+   one." No scroll-jacking: this is native browser sticky behavior, native
+   touch scrolling is completely untouched.
+
+   This only reads as one frozen "chapter" while a section's own height is
+   exactly one viewport. If a section grows taller than that (the Scenarios
+   section, once its story/roles panel is open), it stays "stuck" for a
+   scroll distance equal to its own extra height — but a stuck box doesn't
+   reveal lower content while pinned, so the extra content would only
+   surface later while the box is unpinning and sliding away, which reads as
+   ordinary scrolling rather than a frozen chapter. That's a real visual
+   regression, not a false alarm — js/modules/scenario-flow.js adds
+   .is-expanded to #scenarios exactly while that panel is open, and the rule
+   below drops it out of the sticky stack for that window so it just scrolls
+   normally (full content reachable, no fighting the pin); it rejoins the
+   stack the moment the panel closes.
+
+   min-height is declared twice on purpose: 100vh first as a fallback, then
+   100dvh right after. Browsers that don't understand dvh simply ignore that
+   second line and keep the vh value — every chapter is reliably full-screen
+   everywhere, including browsers without dvh support. */
+.stack {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.stack.is-expanded {
+  position: static;
+}
+.stack-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--c-black-aed);
+}
+.stack-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: var(--space-8) var(--space-5);
+}
+
+/* explicit chapter order — sticky siblings already paint in DOM order, this
+   just makes the intent unambiguous rather than relying on that implicitly */
+.hero      { z-index: 1; }
+#introduction { z-index: 2; }
+#scenarios    { z-index: 3; }
+#fingerprint-section { z-index: 4; }
+#about     { z-index: 5; }
+#contact   { z-index: 6; }
+footer     { z-index: 7; }
+
+/* ---- Button loading state ---- */
+@keyframes spin { to { transform: rotate(360deg); } }
+.btn.is-loading {
+  color: transparent;
+  pointer-events: none;
+}
+.btn.is-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--c-cream-a40);
+  border-top-color: var(--c-cream);
+  animation: spin 700ms linear infinite;
+}

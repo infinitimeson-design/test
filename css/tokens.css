@@ -1,0 +1,123 @@
+/*
+  DESIGN TOKENS — single source of truth.
+  Every color, spacing, radius, shadow, and timing value used anywhere on the
+  site must come from here. To restyle a card, a button, or the whole palette,
+  edit ONLY this file — never hardcode a color/size inside a component file.
+
+  COLOR RULE (absolute, project-wide): only these 4 hex colors exist —
+  #000000 #8E1616 #E8C999 #F8EEDF. No rgb()/rgba()/hsl()/named colors
+  anywhere in the project, ever. Every translucent surface below is one of
+  those 4 colors expressed as an 8-digit hex value (#RRGGBBAA) — same exact
+  visual alpha as before, just hex instead of rgba(). If a component needs a
+  new opacity, add the token here first; never invent rgba() inline.
+*/
+:root{
+  /* ---- Locked color palette (hex only — never introduce a 5th color) ---- */
+  --c-black: #000000;
+  --c-burgundy: #8E1616;
+  --c-beige: #E8C999;
+  --c-cream: #F8EEDF;
+
+  /* semantic aliases — components reference these, not the raw colors above */
+  --c-bg: var(--c-black);
+  --c-accent: var(--c-burgundy);
+  --c-secondary: var(--c-beige);
+  --c-text: var(--c-cream);
+  --c-text-dim: #F8EEDFB8;   /* cream @ 72% */
+  --c-text-dimmer: #F8EEDF80; /* cream @ 50% */
+
+  /* ---- alpha scale — every translucent value used anywhere, 8-digit hex ---- */
+  --c-white-a04: #FFFFFF04; /* white 1.5% — btn gradient stop */
+  --c-white-a05: #FFFFFF05; /* white 2%   — subtle surfaces (role tab, card hover bg) */
+  --c-white-a09: #FFFFFF09; /* white 3.5% — glass-bg default */
+  --c-white-a0d: #FFFFFF0D; /* white 5%   — btn gradient top */
+  --c-white-a0f: #FFFFFF0F; /* white 6%   — glass-bg-strong */
+
+  --c-cream-a40: #F8EEDF40; /* cream 25% — inactive dot */
+  --c-cream-a59: #F8EEDF59; /* cream 35% — string/tag borders */
+  --c-cream-a66: #F8EEDF66; /* cream 40% — footer credit text */
+  --c-cream-a80: #F8EEDF80; /* cream 50% — hint text */
+  --c-cream-a8c: #F8EEDF8C; /* cream 55% — stat-box label */
+  --c-cream-a99: #F8EEDF99; /* cream 60% — side-intro text */
+  --c-cream-aa6: #F8EEDFA6; /* cream 65% — role-tab default text */
+  --c-cream-ab2: #F8EEDFB2; /* cream 70% — footer nav links */
+  --c-cream-ab8: #F8EEDFB8; /* cream 72% — primary dim body text */
+
+  --c-beige-a24: #E8C99924; /* beige 14% — glass-border default */
+  --c-beige-a4c: #E8C9994C; /* beige 30% — glass-border-strong */
+  --c-beige-a66: #E8C99966; /* beige 40% — card tag border */
+  --c-beige-a80: #E8C99980; /* beige 50% — button sheen highlight */
+
+  --c-burgundy-a1a: #8E16161A; /* burgundy 10% — dark surface warm tint (sheet, cards) */
+  --c-burgundy-a3d: #8E16163D; /* burgundy 24% — soft radial accent wash */
+  --c-burgundy-a47: #8E161647; /* burgundy 28% — accent-bg */
+  --c-burgundy-a80: #8E161680; /* burgundy 50% — card placeholder gradient */
+  --c-burgundy-a8c: #8E16168C; /* burgundy 55% — accent-bg-strong */
+  --c-burgundy-a99: #8E161699; /* burgundy 60% — accent-border / accent-glow */
+
+  --c-black-a80: #00000080; /* black 50% — seal shadow */
+  --c-black-a8c: #0000008C; /* black 55% — nav bg */
+  --c-black-a99: #00000099; /* black 60% — soft shadow */
+  --c-black-ab2: #000000B2; /* black 70% — sheet backdrop */
+  --c-black-acc: #000000CC; /* black 80% — deep shadow */
+  --c-black-aeb: #000000EB; /* black 92% — menu overlay bg */
+  --c-black-a59: #00000059; /* black 35% — hero/footer video overlay, top edge */
+  --c-black-abf: #000000BF; /* black 75% — hero/footer video overlay, mid */
+  --c-black-ae6: #000000E6; /* black 90% — hero/footer video overlay, bottom edge */
+  --c-black-aed: #000000ED; /* black 93% — stacked-section background over the shared ambient gradient */
+
+  /* glass / surfaces (Dark Liquid Glass only — never white/milky/blue) */
+  --glass-bg: var(--c-white-a09);
+  --glass-bg-strong: var(--c-white-a0f);
+  --glass-border: var(--c-beige-a24);
+  --glass-border-strong: var(--c-beige-a4c);
+
+  /* accent surfaces */
+  --accent-bg: var(--c-burgundy-a47);
+  --accent-bg-strong: var(--c-burgundy-a8c);
+  --accent-border: var(--c-burgundy-a99);
+  --accent-glow: var(--c-burgundy-a99);
+
+  /* ---- Typography ---- */
+  --font-primary: 'Estedad', 'Vazirmatn', -apple-system, 'Segoe UI', Tahoma, sans-serif;
+  --fs-eyebrow: 11px;
+  --fs-body: 14px;
+  --fs-body-sm: 12.5px;
+  --fs-title: 26px;
+  --fs-hero: 32px;
+
+  /* ---- Spacing scale ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* ---- Touch ---- */
+  --touch-min: 44px; /* minimum interactive-element size, mobile UX rule */
+
+  /* ---- Radius scale ---- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-pill: 100px;
+
+  /* ---- Shadow ---- */
+  --shadow-soft: 0 8px 24px -10px var(--c-black-a99);
+  --shadow-deep: 0 20px 40px -16px var(--c-black-acc);
+  --shadow-accent: 0 8px 24px -10px var(--accent-glow);
+
+  /* ---- Motion timing (locked ranges from Master Build Prompt) ---- */
+  --t-micro: 220ms;      /* micro interactions: 160–280ms */
+  --t-component: 480ms;  /* component transitions: 350–650ms */
+  --t-cinematic: 1100ms; /* cinematic reveals: 700–1400ms */
+  --ease-cinematic: cubic-bezier(.22, .61, .16, 1);
+
+  /* ---- Blur-to-focus reveal system (locked, spaitial.ai-inspired) ---- */
+  --reveal-blur-max: 10px;
+  --reveal-translate: 24px;
+}

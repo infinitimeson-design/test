@@ -1,0 +1,85 @@
+/* BUTTON — one component, used everywhere. Change look here, not per-section. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  padding: 13px 24px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, var(--c-white-a0d), var(--c-white-a04));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--c-text);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  text-decoration: none;
+  transition: transform var(--t-micro) var(--ease-cinematic), box-shadow var(--t-micro) var(--ease-cinematic);
+}
+
+.btn.is-primary {
+  background: linear-gradient(180deg, var(--accent-bg-strong), var(--accent-bg));
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow-accent);
+}
+
+.btn.is-ghost {
+  background: transparent;
+}
+
+.btn.is-full { width: 100%; }
+
+.btn.is-icon {
+  width: var(--touch-min);
+  height: var(--touch-min);
+  min-height: var(--touch-min);
+  padding: 0;
+  border-radius: 50%;
+}
+
+.btn.is-disabled {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.btn:active {
+  transform: scale(.96);
+}
+
+/* restrained sheen — a brief diagonal highlight sweep, ONLY on hover/tap, never
+   idle/continuous (rejected the always-animating "shiny button" reference
+   pattern as motion overload / too-shiny for the Dark Liquid Glass material) */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 30%, var(--c-cream-a59) 48%, var(--c-beige-a80) 52%, transparent 68%);
+  background-size: 220% 100%;
+  background-position: 140% 0;
+  opacity: 0;
+  transition: opacity var(--t-micro) var(--ease-cinematic), background-position 900ms var(--ease-cinematic);
+}
+.btn:hover::after,
+.btn:active::after {
+  opacity: 1;
+  background-position: -40% 0;
+}
+
+/* shared tap ripple — appended by js/modules/motion-system.js on any [data-ripple] */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--c-cream-a59);
+  transform: scale(0);
+  animation: rippleOut .6s ease-out;
+  pointer-events: none;
+}

@@ -1,0 +1,139 @@
+/*
+  FINGERPRINT SCAN — replaces the Envelope→Seal→Paper→Reveal interaction.
+  States (driven by js/modules/fingerprint.js): idle → scanning → revealed.
+  Tap the fingerprint icon: pulsing rings + a sweeping scan line play for
+  ~1.2s, then the icon fades out and the same event-info card revealed by
+  the old envelope fades in instead. A reset action returns to idle.
+*/
+
+.fp-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 220px;
+  padding: var(--space-6) 0 var(--space-2);
+}
+
+.fp-scanner {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, var(--c-burgundy-a1a), var(--c-black-a80));
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: opacity var(--t-cinematic) var(--ease-cinematic), transform var(--t-cinematic) var(--ease-cinematic);
+}
+.fp-scanner.is-revealed {
+  opacity: 0;
+  transform: scale(.7);
+  pointer-events: none;
+  position: absolute;
+}
+
+.fp-icon {
+  width: 60px;
+  height: 60px;
+  color: var(--c-secondary);
+  position: relative;
+  z-index: 2;
+  transition: color var(--t-component) var(--ease-cinematic);
+}
+.fp-scanner.is-scanning .fp-icon {
+  color: var(--c-burgundy);
+}
+
+.fp-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--accent-border);
+  opacity: 0;
+}
+.fp-scanner.is-scanning .fp-ring {
+  animation: fpPulse 1.4s ease-out infinite;
+}
+.fp-scanner.is-scanning .fp-ring.ring-2 {
+  animation-delay: .5s;
+}
+@keyframes fpPulse {
+  0%   { transform: scale(.85); opacity: .8; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+.fp-scanline {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: 18%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c-burgundy), transparent);
+  box-shadow: 0 0 10px var(--accent-glow);
+  opacity: 0;
+}
+.fp-scanner.is-scanning .fp-scanline {
+  opacity: 1;
+  animation: fpSweep 1.1s ease-in-out;
+}
+@keyframes fpSweep {
+  0%   { top: 18%; }
+  50%  { top: 78%; }
+  100% { top: 18%; }
+}
+
+.fp-card {
+  position: absolute;
+  inset: 0 auto;
+  left: 0;
+  right: 0;
+  width: 230px;
+  max-width: 80vw;
+  margin: 0 auto;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, var(--c-cream), var(--c-beige));
+  color: var(--c-black);
+  padding: var(--space-5) var(--space-4);
+  font-size: 12.5px;
+  line-height: 1.85;
+  text-align: center;
+  box-shadow: var(--shadow-deep);
+  opacity: 0;
+  transform: translateY(14px) scale(.95);
+  transition: opacity var(--t-cinematic) var(--ease-cinematic), transform var(--t-cinematic) var(--ease-cinematic);
+}
+.fp-card b { display: block; font-size: 13.5px; margin-bottom: var(--space-2); }
+.fp-card.is-shown {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.fp-hint {
+  text-align: center;
+  font-size: 11px;
+  color: var(--c-text-dimmer);
+  margin: var(--space-3) 0 var(--space-1);
+}
+
+.fp-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-4);
+  min-height: var(--touch-min);
+}
+.fp-actions .btn {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-micro) var(--ease-cinematic);
+  padding: 9px 20px;
+  font-size: 12.5px;
+}
+.fp-actions .btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}

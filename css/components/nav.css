@@ -1,0 +1,80 @@
+/*
+  NAV — persistent top navbar, Liquid Glass, no hamburger/dropdown.
+  Tabs sit inline; a single burgundy "blob" + underline pill slide beneath
+  whichever tab is active (js/modules/nav.js), inspired only by a CodePen
+  goo-nav reference for the sliding-indicator idea — no GSAP, no per-tab
+  colors (one accent only), plain CSS transitions + vanilla JS.
+*/
+
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3) var(--space-3) 0;
+  background: var(--c-black-a8c);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: var(--space-3);
+}
+.nav-brand-row .logo { font-size: 13px; letter-spacing: .1em; }
+.nav-brand-row .logo b { color: var(--c-secondary); font-weight: 600; }
+
+.nav-tabs {
+  position: relative;
+  display: flex;
+}
+
+.nav-tabs a {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: var(--touch-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 var(--space-1) var(--space-3);
+  font-size: 12.5px;
+  color: var(--c-cream-a8c);
+  text-decoration: none;
+  transition: color var(--t-micro) var(--ease-cinematic);
+  -webkit-user-select: none;
+  user-select: none;
+}
+.nav-tabs a.is-active {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+/* the "goo blob" — a soft burgundy wash that slides under the active tab */
+.nav-blob {
+  position: absolute;
+  top: 2px;
+  height: 34px;
+  border-radius: 17px;
+  background: var(--c-burgundy-a1a);
+  z-index: 0;
+  filter: blur(6px);
+  transition: transform var(--t-component) var(--ease-cinematic), width var(--t-component) var(--ease-cinematic);
+}
+
+/* the underline pill — crisp indicator riding on top of the blob */
+.nav-pill {
+  position: absolute;
+  bottom: 0;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--c-burgundy);
+  box-shadow: 0 0 10px var(--accent-glow);
+  z-index: 1;
+  transition: transform var(--t-component) var(--ease-cinematic), width var(--t-component) var(--ease-cinematic);
+}

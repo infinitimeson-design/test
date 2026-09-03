@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Night War — شب‌های مافیا</title>
+
+<!--
+  Estedad is the locked typeface. Real font files go in assets/fonts/Estedad/
+  (see the README there); until then this falls back to Vazirmatn (CDN) and
+  finally the system font — the page never breaks or shows missing-font
+  boxes while waiting on the real files.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/fonts/Estedad/estedad.css">
+
+<!--
+  No external script dependencies of any kind — Three.js/GSAP/ScrollTrigger
+  were fully removed along with the 3D architecture. This project has zero
+  runtime dependencies: every effect on this page (the animated background,
+  the stacked-section scroll, the nav indicator, the fingerprint scan) is
+  plain CSS + vanilla JS ES modules, no build step, no bundler.
+-->
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/background.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/glass.css">
+<link rel="stylesheet" href="css/components/button.css">
+<link rel="stylesheet" href="css/components/card.css">
+<link rel="stylesheet" href="css/components/nav.css">
+<link rel="stylesheet" href="css/components/fingerprint.css">
+<link rel="stylesheet" href="css/components/sheet.css">
+<link rel="stylesheet" href="css/sections/hero.css">
+<link rel="stylesheet" href="css/sections/introduction.css">
+<link rel="stylesheet" href="css/sections/scenarios.css">
+<link rel="stylesheet" href="css/sections/about.css">
+<link rel="stylesheet" href="css/sections/contact.css">
+<link rel="stylesheet" href="css/sections/footer.css">
+</head>
+<body>
+
+<!-- ==================================================
+     GLOBAL BACKGROUND + PROGRESS (fixed, behind everything)
+     ================================================== -->
+<div class="bg-grain"></div>
+<div class="bg-atmosphere">
+  <span class="bg-blob-1"></span>
+  <span class="bg-blob-2"></span>
+  <span class="bg-blob-3"></span>
+</div>
+<div class="scroll-progress"></div>
+
+<main>
+
+  <!-- ==================================================
+       01 — NAVIGATION
+       Persistent top navbar, no hamburger/dropdown. Tabs sit inline; a
+       burgundy blob + underline pill slide beneath the active tab.
+       ================================================== -->
+  <nav class="topnav">
+    <div class="nav-brand-row"><div class="logo">NIGHT <b>WAR</b></div></div>
+    <div class="nav-tabs" id="navTabs">
+      <a href="#hero" data-target="hero">خانه</a>
+      <a href="#scenarios" data-target="scenarios">سناریو</a>
+      <a href="#about" data-target="about">درباره</a>
+      <a href="#contact" data-target="contact">تماس</a>
+      <div class="nav-blob" id="navBlob"></div>
+      <div class="nav-pill" id="navPill"></div>
+    </div>
+  </nav>
+
+  <!-- ==================================================
+       02 — HERO
+       2D cinematic. Real video background (poster/fallback if unavailable
+       or prefers-reduced-motion), dark overlay for readability, single CTA.
+       FINAL ASSET REQUIRED: assets/video/hero/hero-loop.mp4 (+ .webm +
+       poster.webp) — see the README in that folder. Until the real files
+       are added, the poster/fallback state renders instead automatically.
+       ================================================== -->
+  <section class="hero stack" id="hero">
+    <div class="hero-media">
+      <video
+        autoplay muted loop playsinline
+        poster="assets/video/hero/poster.webp"
+        aria-hidden="true">
+        <source src="assets/video/hero/hero-loop.webm" type="video/webm">
+        <source src="assets/video/hero/hero-loop.mp4" type="video/mp4">
+      </video>
+      <div class="hero-fallback-img" aria-hidden="true"></div>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <div class="hero-label">شب‌های مافیا</div>
+      <h1 class="hero-title">شب، همه‌چیز را<br>تغییر می‌دهد</h1>
+      <p class="hero-sub">در شهری که حقیقت پشت هر چهره پنهان است، اعتماد همیشه یک ریسک است.</p>
+      <div class="hero-label-bottom">یک بازی از جنس اعتماد و تردید</div>
+      <a class="btn is-primary" href="#scenarios" data-ripple>مشاهده سناریو</a>
+      <div class="scroll-cue"><div class="cue-line"></div><span>به پایین اسکرول کنید</span></div>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       03 — INTRODUCTION
+       ================================================== -->
+  <section id="introduction" class="stack">
+    <div class="stack-bg"></div>
+    <div class="stack-content intro-text">
+      <p class="intro-lead" data-reveal>نایت وار، یک بازی نیست.</p>
+      <p data-reveal>یک جمع است؛<br>یک نگاه مشترک به تفریح سالم،<br>یک جمع دوستانه،<br>یک خانواده،<br>و دنیایی از نقش‌ها و داستان‌ها.</p>
+      <p data-reveal>اینجا، هرکس با یک نقش وارد می‌شود؛<br>اما چیزی که ما را کنار هم نگه می‌دارد،<br>بازی نیست.</p>
+      <p class="intro-emphasis" data-reveal>رفاقت است.</p>
+      <p data-reveal>تمام اعضای نایت وار،<br>برای یک چیز دور هم جمع می‌شوند:</p>
+      <p data-reveal>ساختن لحظاتی که ارزش به خاطر سپردن دارند؛<br>در کنار آدم‌هایی که بودنشان،<br>بخشی از خاطره می‌شود.</p>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       04–10 — SCENARIO / STORY / STATS / ROLE SECTION
+       Data-driven from data/scenarios.json + data/roles.json (see
+       js/modules/carousel.js + scenario-flow.js). Locked flow: carousel →
+       tap a scenario → story+stats step → tap "شناخت نقش‌ها" → role grid
+       scoped to that scenario, each role opening the shared detail sheet.
+       ================================================== -->
+  <section id="scenarios" class="stack">
+    <div class="stack-bg"></div>
+    <div class="stack-content">
+      <p class="eyebrow" data-reveal>سناریوها</p>
+      <h2 class="section-title" data-reveal>هر شب، یک بازی تازه</h2>
+      <p class="lede" data-reveal>سناریوها قوانین، نقش‌ها و مسیر متفاوتی برای بازی می‌سازند.</p>
+
+      <div class="carousel" id="carousel"><!-- js/modules/carousel.js renders scenario cards here --></div>
+      <div class="dots" id="dots"></div>
+
+      <div class="panel-collapse" id="storyPanel">
+        <div id="storyInner"><!-- js/modules/scenario-flow.js renders the story+roles steps here --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       11 — SECRET INTERACTION (fingerprint scan)
+       Replaces the earlier Envelope interaction. Locked copy: the reveal
+       card still shows the same abstract event-info text.
+       ================================================== -->
+  <section id="fingerprint-section" class="stack">
+    <div class="stack-bg"></div>
+    <div class="stack-content">
+      <p class="eyebrow" data-reveal>پرونده</p>
+      <h2 class="section-title" data-reveal>محرمانه</h2>
+      <p class="lede" data-reveal>برای ورود، اثر انگشتت رو لمس کن.</p>
+
+      <div class="fp-wrap">
+        <div class="fp-scanner" id="fpScanner">
+          <div class="fp-ring"></div>
+          <div class="fp-ring ring-2"></div>
+          <div class="fp-scanline"></div>
+          <svg class="fp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2a9 9 0 0 0-9 9v3a3 3 0 0 0 6 0v-3a3 3 0 0 1 6 0v5a3 3 0 0 1-3 3"/>
+            <path d="M8 2.5A9 9 0 0 1 21 11v3"/>
+            <path d="M4.5 5.5A9 9 0 0 0 3 11v3"/>
+            <path d="M12 6a5 5 0 0 0-5 5v3a1 1 0 0 0 2 0"/>
+            <path d="M12 6a5 5 0 0 1 5 5v6"/>
+            <path d="M16 17v1a2 2 0 0 1-2 2"/>
+          </svg>
+        </div>
+        <div class="fp-card" id="fpCard">
+          <b>پرونده بازی</b>
+          سناریو آماده است.<br>
+          نقش‌ها مشخص‌اند.<br>
+          حالا فقط یک چیز باقی مانده: حضور تو.
+        </div>
+      </div>
+      <p class="fp-hint" id="fpStatus">لمس کن برای شروع</p>
+      <div class="fp-actions"><button class="btn" id="fpReset" data-ripple>اسکن دوباره</button></div>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       13 — ABOUT
+       ================================================== -->
+  <section id="about" class="stack">
+    <div class="stack-bg"></div>
+    <div class="stack-content">
+      <p class="eyebrow" data-reveal>درباره Night War</p>
+      <h2 class="section-title" data-reveal>بازی، فقط بازی نیست</h2>
+      <div class="glass-panel">
+        <p class="about-body" data-reveal>
+          Night War یک تجربه برای کسانی است که از بازی کردن با اعتماد، شک و تصمیم لذت می‌برند.
+          اینجا هر شب یک داستان تازه ساخته می‌شود؛ اما پایان آن را هیچ‌کس از قبل نمی‌داند.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       12/14 — ATTENDANCE + CONTACT (merged into one section)
+       ================================================== -->
+  <section id="contact" class="stack">
+    <div class="stack-bg"></div>
+    <div class="stack-content">
+      <p class="eyebrow" data-reveal>ثبت حضور</p>
+      <h2 class="section-title" data-reveal>شب ادامه دارد</h2>
+      <p class="lede" data-reveal>برای ثبت حضور یا هماهنگی بیشتر، با گرداننده بازی در ارتباط باش.</p>
+      <div class="contact-actions">
+        <a class="btn is-primary is-full" href="tel:+989120000000" data-ripple>تماس</a>
+        <a class="btn is-full" href="https://t.me/nightwarevent" target="_blank" rel="noopener" data-ripple>تلگرام</a>
+        <a class="btn is-full" href="https://instagram.com/nightwarevent" target="_blank" rel="noopener" data-ripple>اینستاگرام</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       15 — FOOTER
+       2D cinematic, no particle system. Real video background (same
+       treatment as Hero), minimal content, creator-contact icon buttons.
+       FINAL ASSET REQUIRED: assets/video/footer/footer-loop.mp4 (+ .webm +
+       poster.webp) — same asset contract as the Hero video.
+       ================================================== -->
+  <footer class="stack">
+    <div class="stack-bg"></div>
+    <div class="footer-media">
+      <video
+        autoplay muted loop playsinline
+        poster="assets/video/footer/poster.webp"
+        aria-hidden="true">
+        <source src="assets/video/footer/footer-loop.webm" type="video/webm">
+        <source src="assets/video/footer/footer-loop.mp4" type="video/mp4">
+      </video>
+      <div class="footer-fallback-img" aria-hidden="true"></div>
+    </div>
+    <div class="footer-overlay"></div>
+
+    <div class="footer-inner">
+      <div class="footer-nav">
+        <a href="#hero" data-target="hero">خانه</a>
+        <a href="#scenarios" data-target="scenarios">سناریو</a>
+        <a href="#about" data-target="about">درباره</a>
+        <a href="#contact" data-target="contact">تماس</a>
+      </div>
+      <p class="footer-closing">شب تمام می‌شود. بازی نه.</p>
+      <p class="footer-credit">Direct by meti sicily, craft by sc dev</p>
+
+      <div class="footer-creator-actions">
+        <a class="btn is-icon" href="tel:09223935042" data-ripple aria-label="تماس با سازنده">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.4 21 3 13.6 3 4.6c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        </a>
+        <a class="btn is-icon" href="https://instagram.com/meti_sicily" target="_blank" rel="noopener" data-ripple aria-label="اینستاگرام سازنده">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="btn is-icon" href="https://github.com/" target="_blank" rel="noopener" data-ripple aria-label="مشاهده در گیت‌هاب">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<!-- ==================================================
+     ROLE DETAIL SHEET (shared, filled by js/modules/role-sheet.js)
+     ================================================== -->
+<div class="sheet-backdrop" id="sheetBackdrop"></div>
+<div class="sheet" id="sheet">
+  <div class="handle"></div>
+  <div class="sheet-side" id="sheetSide"></div>
+  <h3 id="sheetName"></h3>
+  <p class="sheet-identity" id="sheetIdentity"></p>
+  <p class="ability-label">ABILITY</p>
+  <p class="sheet-ability" id="sheetAbility"></p>
+  <button class="btn is-primary is-full" id="sheetClose" data-ripple>بازگشت</button>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,71 +1,313 @@
 /*
-  BACKGROUND — the shared animated liquid/ambient gradient world.
-  Fixed behind everything, pure CSS keyframes (no JS driving it), so it
-  keeps moving during scroll without costing a single frame of JS. Built
-  from soft blurred blobs of the locked colors only, slow and organic —
-  inspired only for direction (organic movement, liquid depth, soft
-  blending) by a CodePen reference, not copied from it, and with no
-  WebGL/Three.js involved at all.
+  ============================================================
+  NIGHT WAR — GLOBAL CINEMATIC BACKGROUND
+  ============================================================
+
+  این فایل فقط مسئول اتمسفر بصری پشت کل سایت است.
+
+  ساختار:
+  .bg-atmosphere
+      ├── .bg-blob-1  → نور Burgundy اصلی
+      ├── .bg-blob-2  → نور Beige بسیار نرم
+      └── .bg-blob-3  → عمق Burgundy ثانویه
+
+  ویژگی‌ها:
+  - ثابت در کل صفحه
+  - بدون JavaScript
+  - بدون WebGL / Three.js
+  - حرکت بسیار آهسته
+  - استفاده فقط از رنگ‌های قفل‌شده پروژه
+  - مناسب موبایل
+  - قابل خاموش شدن برای prefers-reduced-motion
+
+  نکته:
+  این Background باید پشت تمام محتوای سایت باشد.
 */
+
+/* ============================================================
+   GLOBAL ATMOSPHERE
+   ============================================================ */
 
 .bg-atmosphere {
   position: fixed;
   inset: 0;
   z-index: 0;
-  pointer-events: none;
+
+  /*
+    پایه کاملاً مشکی می‌ماند.
+    نورها روی این سطح ساخته می‌شوند.
+  */
   background: var(--c-black);
+
   overflow: hidden;
+  pointer-events: none;
+
+  /*
+    یک لایه بسیار نرم برای جلوگیری از تخت شدن کامل رنگ.
+  */
+  isolation: isolate;
 }
+
+
+/* ============================================================
+   SHARED BLOB SYSTEM
+   ============================================================ */
 
 .bg-atmosphere span {
   position: absolute;
+
+  display: block;
+
   border-radius: 50%;
-  filter: blur(60px);
+
+  /*
+    Blur زیاد باعث می‌شود نورها شبیه Gradient باشند،
+    نه دایره‌های مشخص.
+  */
+  filter: blur(80px);
+
+  /*
+    screen باعث می‌شود نورهای Burgundy و Beige
+    به‌صورت طبیعی روی زمینه مشکی ترکیب شوند.
+  */
   mix-blend-mode: screen;
+
+  pointer-events: none;
+
+  /*
+    فقط transform انیمیت می‌شود.
+    برای عملکرد بهتر موبایل.
+  */
   will-change: transform;
+
+  /*
+    کمی بزرگ‌تر از viewport هستند تا هنگام حرکت
+    هیچ لبه‌ای دیده نشود.
+  */
 }
+
+
+/* ============================================================
+   BURGUNDY — PRIMARY CINEMATIC LIGHT
+   ============================================================ */
 
 .bg-blob-1 {
+  width: 85vw;
+  height: 85vw;
+
+  /*
+    رنگ اصلی Night War
+  */
+  background: var(--c-burgundy);
+
+  /*
+    نسبت به نسخه قبلی قوی‌تر شده تا واقعاً دیده شود،
+    اما هنوز نرم و سینمایی باقی می‌ماند.
+  */
+  opacity: 0.34;
+
+  /*
+    شروع از گوشه بالا راست.
+  */
+  top: -28%;
+  right: -24%;
+
+  /*
+    حرکت بسیار آهسته و ارگانیک.
+  */
+  animation: bgDriftPrimary 28s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   BEIGE — SECONDARY WARM LIGHT
+   ============================================================ */
+
+.bg-blob-2 {
+  width: 75vw;
+  height: 75vw;
+
+  background: var(--c-beige);
+
+  /*
+    Beige باید خیلی ظریف‌تر از Burgundy باشد.
+  */
+  opacity: 0.095;
+
+  /*
+    پایین سمت چپ.
+  */
+  bottom: -30%;
+  left: -25%;
+
+  animation: bgDriftSecondary 34s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   BURGUNDY — DEEP AMBIENT LIGHT
+   ============================================================ */
+
+.bg-blob-3 {
   width: 70vw;
   height: 70vw;
+
   background: var(--c-burgundy);
-  opacity: 0.35;
-  top: -15%;
-  right: -15%;
-  animation: bgDrift1 26s ease-in-out infinite;
-}
-.bg-blob-2 {
-  width: 60vw;
-  height: 60vw;
-  background: var(--c-beige);
-  opacity: 0.14;
-  bottom: -10%;
+
+  opacity: 0.18;
+
+  /*
+    نور سوم وسط صفحه قرار می‌گیرد
+    تا بین سکشن‌ها عمق ایجاد کند.
+  */
+  top: 35%;
   left: -20%;
-  animation: bgDrift2 32s ease-in-out infinite;
-}
-.bg-blob-3 {
-  width: 50vw;
-  height: 50vw;
-  background: var(--c-burgundy);
-  opacity: 0.2;
-  top: 40%;
-  left: 10%;
-  animation: bgDrift3 38s ease-in-out infinite;
+
+  animation: bgDriftDepth 42s ease-in-out infinite;
 }
 
-@keyframes bgDrift1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(-8%, 10%) scale(1.15); }
+
+/* ============================================================
+   PRIMARY MOVEMENT
+   ============================================================ */
+
+@keyframes bgDriftPrimary {
+
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  25% {
+    transform:
+      translate3d(-5vw, 4vh, 0)
+      scale(1.06);
+  }
+
+  50% {
+    transform:
+      translate3d(-10vw, 9vh, 0)
+      scale(1.13);
+  }
+
+  75% {
+    transform:
+      translate3d(-4vw, 5vh, 0)
+      scale(1.08);
+  }
 }
-@keyframes bgDrift2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(10%, -8%) scale(1.1); }
+
+
+/* ============================================================
+   SECONDARY MOVEMENT
+   ============================================================ */
+
+@keyframes bgDriftSecondary {
+
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  30% {
+    transform:
+      translate3d(6vw, -4vh, 0)
+      scale(1.05);
+  }
+
+  60% {
+    transform:
+      translate3d(12vw, -9vh, 0)
+      scale(1.12);
+  }
+
+  80% {
+    transform:
+      translate3d(5vw, -5vh, 0)
+      scale(1.06);
+  }
 }
-@keyframes bgDrift3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(-6%, -12%) scale(1.2); }
+
+
+/* ============================================================
+   DEPTH MOVEMENT
+   ============================================================ */
+
+@keyframes bgDriftDepth {
+
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  35% {
+    transform:
+      translate3d(8vw, -6vh, 0)
+      scale(1.08);
+  }
+
+  70% {
+    transform:
+      translate3d(16vw, -12vh, 0)
+      scale(1.16);
+  }
 }
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+/*
+  روی موبایل Blobها کمی بزرگ‌تر و Blur بیشتر می‌شوند
+  تا لبه هیچ‌کدام دیده نشود.
+*/
+
+@media (max-width: 768px) {
+
+  .bg-atmosphere span {
+    filter: blur(70px);
+  }
+
+  .bg-blob-1 {
+    width: 110vw;
+    height: 110vw;
+
+    top: -30%;
+    right: -40%;
+  }
+
+  .bg-blob-2 {
+    width: 95vw;
+    height: 95vw;
+
+    bottom: -30%;
+    left: -35%;
+  }
+
+  .bg-blob-3 {
+    width: 90vw;
+    height: 90vw;
+
+    top: 38%;
+    left: -35%;
+  }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-atmosphere span { animation: none; }
-}
+
+  .bg-atmosphere span {
+    animation: none;
+  }
+} 

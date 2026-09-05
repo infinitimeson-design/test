@@ -25,7 +25,7 @@
       "thief", "mayor", "judge", "witch", "sheriff",
       "boss", "sleeper", "killer", "surgeon", "simple-mafia"
     ],
-    "cover": null
+    "cover": "assets/images/scenarios/mafia.webp"
   },
   { "id": "coming-1", "locked": true, "tag": "به‌زودی", "title": "سناریوی بعدی" },
   { "id": "coming-2", "locked": true, "tag": "به‌زودی", "title": "سناریوی بعدی" }
